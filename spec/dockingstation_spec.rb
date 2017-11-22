@@ -5,7 +5,7 @@ describe DockingStation do
 
   it 'releases bikes' do
     bike = subject.release_bike
-    expect(bike.working?).to eq true
+    expect(bike.is_a?(Bike) && bike.working?).to eq true
   end
 
   it { is_expected.to respond_to(:dock_bike).with(1).argument }
