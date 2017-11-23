@@ -27,7 +27,8 @@ describe DockingStation do
     end
     it 'will not release a broken bike' do
       bike = Bike.new
-      station = subject.dock_bike(bike.report_broken)
+      station = DockingStation.new
+      station.dock_bike(bike.report_broken)
       expect{station.release_bike}.to raise_error 'Bike is broken. Cannot release a broken bike.'
     end
   end
@@ -38,9 +39,14 @@ describe DockingStation do
       expect {subject.dock_bike(Bike.new)}.to raise_error 'Docking station full'
     end
 
-    it 'docks working bikes' do
+    it 'docks bikes' do
       bike = Bike.new
-      expect(subject.dock_bike(bike).docked_bikes).to include bike
+      expect(subject.dock_bike(bike)).to include bike
+    end
+
+    it 'docks working bikes' do
+      subject.dock_bike(double(:bike))
+      expect(subject.release_bike).to be_working
     end
 
     it "docks a bike and reports it broken" do

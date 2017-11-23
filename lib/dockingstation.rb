@@ -11,7 +11,6 @@ class DockingStation
   def dock_bike(bike)
     raise 'Docking station full' if full?
     @docked_bikes << bike
-    self
   end
 
   def release_bike
