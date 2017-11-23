@@ -31,6 +31,16 @@ describe DockingStation do
       station.dock_bike(bike.report_broken)
       expect{station.release_bike}.to raise_error 'Bike is broken. Cannot release a broken bike.'
     end
+
+    ### ISOLATE TEST
+    let(:bike) {double(:bike)}
+    it 'releases working bikes' do
+      allow(bike).to receive(:working?).and_return(true)
+      allow(bike).to receive(:broken?).and_return(false)
+      subject.dock_bike(bike)
+      released_bike = subject.release_bike
+      expect(released_bike).to be_working
+    end
   end
 
   describe '#dock_bike' do
@@ -38,17 +48,10 @@ describe DockingStation do
       subject.capacity.times {subject.dock_bike(Bike.new)}
       expect {subject.dock_bike(Bike.new)}.to raise_error 'Docking station full'
     end
-
     it 'docks bikes' do
       bike = Bike.new
       expect(subject.dock_bike(bike)).to include bike
     end
-
-    it 'docks working bikes' do
-      subject.dock_bike(double(:bike))
-      expect(subject.release_bike).to be_working
-    end
-
     it "docks a bike and reports it broken" do
       bike = Bike.new
       station = DockingStation.new
