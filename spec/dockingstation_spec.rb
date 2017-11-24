@@ -11,6 +11,7 @@ describe DockingStation do
       station = DockingStation.new
       expect(station.capacity).to eq 20
     end
+
     it 'initializes with a variable capacity' do
       station = DockingStation.new(50)
       station.capacity.times {station.dock_bike(bike)}
@@ -23,15 +24,16 @@ describe DockingStation do
       expect { subject.release_bike }.to raise_error "No bikes available"
     end
     it 'releases bikes' do
-      bike = double(:bike, working?: true, broken?: false)
+      bike = double(:bike, broken?: false)
       subject.dock_bike(bike)
+      expect(subject.release_bike).to be bike
       #the line below expects an object of the Bike class
       #expect(bike.is_a?(Bike)).to eq true
-      expect(subject.release_bike).to eq bike
     end
+
     it 'will not release a broken bike' do
       station = DockingStation.new
-      allow(bike).to receive(:broken?).and_return(true)
+      bike = double(:bike, broken?: true)
       station.dock_bike(bike)
       expect{station.release_bike}.to raise_error 'Bike is broken. Cannot release a broken bike.'
     end
