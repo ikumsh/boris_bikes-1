@@ -1,11 +1,10 @@
 require './lib/dockingstation.rb'
+require './lib/van.rb'
 # bike = Bike.new
 # station = DockingStation.new
 # station.dock(bike.report_broken)
 
 
-goodbike = Bike.new
-brokenbike = Bike.new.report_broken
 #
 # #should return true
 # p bike.working?
@@ -15,10 +14,13 @@ brokenbike = Bike.new.report_broken
 #
 # #should now return false
 # p bike.working?
+
+bike = Bike.new
+brokenbike = Bike.new.report_broken
 station = DockingStation.new
+van = Van.new
 
-p 'docks new bike'
-p station.dock_bike(goodbike).docked_bikes
+station.dock_bike(brokenbike)
+station.dock_bike(bike)
 
-p 'docks broken bike'
-p station.dock_bike(brokenbike).docked_bikes
+p van.collect_broken_bikes
