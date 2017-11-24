@@ -2,9 +2,6 @@ require 'dockingstation'
 
 describe DockingStation do
   let(:bike) {double(:bike)}
-  before do
-    allow(bike).to receive_messages(:working? => true, :broken? => false)
-  end
 
   it { is_expected.to respond_to :release_bike }
   it { is_expected.to respond_to(:dock_bike).with(1).argument }
@@ -26,6 +23,7 @@ describe DockingStation do
       expect { subject.release_bike }.to raise_error "No bikes available"
     end
     it 'releases bikes' do
+      bike = double(:bike, working?: true, broken?: false)
       subject.dock_bike(bike)
       #the line below expects an object of the Bike class
       #expect(bike.is_a?(Bike)).to eq true
@@ -40,7 +38,7 @@ describe DockingStation do
 
     ### ISOLATE TEST
     it 'releases working bikes' do
-      subject.dock_bike(bike)
+      subject.dock_bike(double(:bike, working?: true, broken?: false))
       released_bike = subject.release_bike
       expect(released_bike).to be_working
     end
