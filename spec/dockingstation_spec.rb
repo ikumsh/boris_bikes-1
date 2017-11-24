@@ -27,15 +27,14 @@ describe DockingStation do
     end
     it 'releases bikes' do
       subject.dock_bike(bike)
-
       #the line below expects an object of the Bike class
       #expect(bike.is_a?(Bike)).to eq true
       expect(subject.release_bike).to eq bike
     end
     it 'will not release a broken bike' do
-      bike = bike
       station = DockingStation.new
-      station.dock_bike(bike.report_broken)
+      allow(bike).to receive(:broken?).and_return(true)
+      station.dock_bike(bike)
       expect{station.release_bike}.to raise_error 'Bike is broken. Cannot release a broken bike.'
     end
 
@@ -57,11 +56,11 @@ describe DockingStation do
     #   expect(subject.dock_bike(bike)).to include bike
     # end
     it "docks a bike and reports it broken" do
-      bike = bike
       station = DockingStation.new
-      station.dock_bike(bike.report_broken)
-      bike = station.docked_bikes[station.docked_bikes.index(bike)]
-      expect(bike.broken?).to eq true
+      allow(bike).to receive(:broken?).and_return(true)
+      station.dock_bike(bike)
+      bike_docked = station.docked_bikes[station.docked_bikes.index(bike)]
+      expect(bike_docked.broken?).to eq true
     end
   end
 end
