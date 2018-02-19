@@ -1,5 +1,8 @@
 ## Boris Bikes
 
+This was an early project which helped me get familiar with TDD (Test Driven Development) and OOP (Object Oriented Programming)
+There's no way to run it, but if you have ruby installed you can clone the repository and run my tests on your machine.
+
 Week 1 challenge
 
 ### Steps to follow :
